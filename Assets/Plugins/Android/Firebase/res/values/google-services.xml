@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  <string name="firebase_database_url" translatable="false">https://kids-break-ground.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">146148921289</string>
+  <string name="google_storage_bucket" translatable="false">kids-break-ground.appspot.com</string>
+  <string name="project_id" translatable="false">kids-break-ground</string>
+  <string name="google_api_key" translatable="false">AIzaSyAcoskgLTKZVOQfHFa2aiVzoIjZ7hUi3nk</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAcoskgLTKZVOQfHFa2aiVzoIjZ7hUi3nk</string>
+  <string name="google_app_id" translatable="false">1:146148921289:android:89b67ca2fde62dfd</string>
+  <string name="default_web_client_id" translatable="false">146148921289-ub3agrpt0f1o1so31m1n2796o5l6gsij.apps.googleusercontent.com</string>
+</resources>
