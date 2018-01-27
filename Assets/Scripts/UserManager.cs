@@ -13,9 +13,12 @@ public class UserManager : MonoBehaviour {
     Firebase.Auth.FirebaseAuth auth;
     FirebaseUser user;
     FirebaseDatabase db;
-    public Text errorMessage;
 
     public InputField userNameField, passwordField;
+    public string gender, ageGroup, _name, _username, email, password; // Registeration
+    public string favoriteColor, subject, hobby, likes, quality; // Quiz
+
+    public bool cPassword = false;
 
     private void Awake()
     {
@@ -28,11 +31,6 @@ public class UserManager : MonoBehaviour {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
     }
 
-    private void Start()
-    {
-        errorMessage.gameObject.SetActive(false);
-    }
-
     void InitializeFirebase()
     {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -42,17 +40,17 @@ public class UserManager : MonoBehaviour {
 
     public void SignInAttempt()
     {
-        errorMessage.gameObject.SetActive(false);
+        UIManager.Instance.errorMessage.gameObject.SetActive(false);
         string username = userNameField.text;
         string password = passwordField.text;
 
         if(username == "" || username.Length < 3)
         {
-            DisplayError("Please provide a valid username.");
+            UIManager.Instance.DisplayError("Please provide a valid username.");
             return;
         } else if(password == "" || password.Length < 6)
         {
-            DisplayError("Please provide a valid password");
+            UIManager.Instance.DisplayError("Please provide a valid password");
             return;
         }
 
@@ -89,20 +87,13 @@ public class UserManager : MonoBehaviour {
             }
             if (task.IsFaulted)
             {
-                DisplayError("Invalid Password. Try Again or Press Forgot Password.");
+                UIManager.Instance.DisplayError("Invalid Password. Try Again or Press Forgot Password.");
                 return;
             }
 
             user = task.Result;
             
         });
-    }
-
-    void DisplayError(string message)
-    {
-        errorMessage.gameObject.SetActive(true);
-
-        errorMessage.text = message;
     }
 
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
@@ -123,5 +114,66 @@ public class UserManager : MonoBehaviour {
                 photoUrl = user.PhotoUrl ?? "";
             }
         }*/
+    }
+
+    public void Username(string uname)
+    {
+        db.GetReference("users").GetValueAsync().ContinueWith(task => {
+            if (task.IsFaulted)
+            {
+                Debug.Log(task.Exception);
+            }
+            else if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                foreach (DataSnapshot user in snapshot.Children)
+                {
+                    IDictionary dictUser = (IDictionary)user.Value;
+
+                    if (dictUser["username"].ToString() == uname)
+                    {
+                        UIManager.Instance.DisplayError("Username already exist.");
+                        return;
+                    }
+                }
+            }
+        });
+
+        _username = uname;
+    }
+
+    public void RegisterUser()
+    {
+        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        {
+            if (task.IsCanceled)
+            {
+                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                return;
+            }
+            if (task.IsFaulted)
+            {
+                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                return;
+            }
+
+            // Firebase user has been created.
+            user = task.Result;
+            db.GetReference("users").Child(user.UserId).Child("username").SetValueAsync(_username);
+            db.GetReference("users").Child(user.UserId).Child("name").SetValueAsync(_name);
+            db.GetReference("users").Child(user.UserId).Child("email").SetValueAsync(email);
+            db.GetReference("users").Child(user.UserId).Child("password").SetValueAsync(password);
+            db.GetReference("users").Child(user.UserId).Child("gender").SetValueAsync(gender);
+            db.GetReference("users").Child(user.UserId).Child("age").SetValueAsync(ageGroup);
+        });
+    }
+
+    public void QuizSubmit()
+    {
+        db.GetReference("users").Child(user.UserId).Child("color").SetValueAsync(favoriteColor);
+        db.GetReference("users").Child(user.UserId).Child("subject").SetValueAsync(subject);
+        db.GetReference("users").Child(user.UserId).Child("hobby").SetValueAsync(hobby);
+        db.GetReference("users").Child(user.UserId).Child("likes").SetValueAsync(likes);
+        db.GetReference("users").Child(user.UserId).Child("quality").SetValueAsync(quality);
     }
 }
