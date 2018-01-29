@@ -7,6 +7,8 @@ TagManager:
   - RegisterationForm
   - QuizForm
   - ScrollView
+  - Color
+  - Icon
   layers:
   - Default
   - TransparentFX

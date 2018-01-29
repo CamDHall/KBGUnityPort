@@ -67,6 +67,7 @@ public class InputFields : MonoBehaviour {
         if(input.text != UserManager.Instance.password)
         {
             Debug.Log(UserManager.Instance.password);
+            Debug.Log(UserManager.Instance.cPassword);
             UIManager.Instance.DisplayError("Passwords do not match.");
         } else
         {

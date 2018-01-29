@@ -7,7 +7,11 @@ public class GameManager : MonoBehaviour {
 
     private void Awake()
     {
-        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     void Start () {

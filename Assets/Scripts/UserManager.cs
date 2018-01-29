@@ -176,4 +176,9 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("likes").SetValueAsync(likes);
         db.GetReference("users").Child(user.UserId).Child("quality").SetValueAsync(quality);
     }
+
+    public void LogOut()
+    {
+        auth.SignOut();
+    }
 }

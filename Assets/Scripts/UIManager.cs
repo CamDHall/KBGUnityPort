@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour {
@@ -11,15 +12,30 @@ public class UIManager : MonoBehaviour {
     public Color backgroundColor;
     public GameObject registerForm, quizForm, scrollView;
     public Text errorMessage;
+    Dictionary<Image, Color> colorOptions = new Dictionary<Image, Color>();
 
     private void Awake()
     {
         Instance = this;
+
+        if (SceneManager.GetActiveScene().name == "Registeration")
+        {
+            GameObject colors = GameObject.FindGameObjectWithTag("Color");
+
+            Image[] colorOptionBtns = colors.GetComponentsInChildren<Image>();
+
+            foreach (Image img in colorOptionBtns)
+            {
+                colorOptions[img] = img.color;
+            }
+        }
     }
 
     private void Start()
     {
         errorMessage.gameObject.SetActive(false);
+        if(quizForm != null) 
+            quizForm.gameObject.SetActive(false);
     }
 
     public void RegisterScene()
@@ -42,7 +58,7 @@ public class UIManager : MonoBehaviour {
         {
             scrollView.GetComponentInChildren<Image>().color = backgroundColor;
 
-            UserManager.Instance.RegisterUser();
+            //UserManager.Instance.RegisterUser();
             registerForm.SetActive(false);
             quizForm.SetActive(true);
         }
@@ -53,6 +69,7 @@ public class UIManager : MonoBehaviour {
         if(Utils.FormValid())
         {
             UserManager.Instance.QuizSubmit();
+            SceneManager.LoadScene("AvatarScreen");
         } else
         {
             DisplayError("Some fields are missing or invalid.");
@@ -64,6 +81,45 @@ public class UIManager : MonoBehaviour {
         GameObject clicked = EventSystem.current.currentSelectedGameObject;
         string pn = clicked.transform.parent.name;
         string val = clicked.name;
+
+        CollapseSection cs;
+
+        if (clicked.transform.parent.parent.name == "QuizForm")
+        {
+            cs = clicked.transform.parent.GetComponent<CollapseSection>();
+        }
+        else
+        {
+            cs = clicked.transform.parent.parent.GetComponent<CollapseSection>();
+        }
+        Image btn = clicked.GetComponent<Image>();
+        // For default buttons
+        if (pn != "Color")
+        {
+            // Colors
+            List<Image> siblings = siblings = clicked.transform.parent.GetComponentsInChildren<Image>().ToList();
+
+            foreach (Image sibling in siblings)
+            {
+                if (sibling != btn)
+                {
+                    sibling.color = btn.color;
+                }
+            }
+        } else
+        {
+            // Set all buttons to original color besides current button
+            foreach(Image option in colorOptions.Keys)
+            {
+                if(option != btn)
+                {
+                    option.color = colorOptions[option];
+                }
+            }
+        } // For color options
+
+        Color newColor = new Color(btn.color.r * 0.7f, btn.color.g * 0.7f, btn.color.b * 0.7f);
+        btn.color = newColor;
 
         if (pn == "Color")
         {
@@ -83,10 +139,14 @@ public class UIManager : MonoBehaviour {
         } else if(pn == "Gender")
         {
             UserManager.Instance.gender = val;
+            cs.genderSelected = true;
         } else if(pn == "Age")
         {
+           cs.ageSelected = true;
             UserManager.Instance.ageGroup = val;
         }
+
+        cs.Collapse();
     }
 
     public void DisplayError(string message)
@@ -99,5 +159,10 @@ public class UIManager : MonoBehaviour {
     public void ErrorOff()
     {
         errorMessage.gameObject.SetActive(false);
+    }
+
+    public void LogOutBtn()
+    {
+        UserManager.Instance.LogOut();
     }
 }
