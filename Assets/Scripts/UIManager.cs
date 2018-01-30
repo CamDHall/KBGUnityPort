@@ -33,9 +33,12 @@ public class UIManager : MonoBehaviour {
 
     private void Start()
     {
-        errorMessage.gameObject.SetActive(false);
-        if(quizForm != null) 
-            quizForm.gameObject.SetActive(false);
+        if (errorMessage != null)
+        {
+            errorMessage.gameObject.SetActive(false);
+            if (quizForm != null)
+                quizForm.gameObject.SetActive(false);
+        }
     }
 
     public void RegisterScene()
@@ -58,7 +61,7 @@ public class UIManager : MonoBehaviour {
         {
             scrollView.GetComponentInChildren<Image>().color = backgroundColor;
 
-            //UserManager.Instance.RegisterUser();
+            UserManager.Instance.RegisterUser();
             registerForm.SetActive(false);
             quizForm.SetActive(true);
         }
@@ -69,7 +72,7 @@ public class UIManager : MonoBehaviour {
         if(Utils.FormValid())
         {
             UserManager.Instance.QuizSubmit();
-            SceneManager.LoadScene("AvatarScreen");
+            SceneManager.LoadScene("AvatarScene");
         } else
         {
             DisplayError("Some fields are missing or invalid.");
@@ -92,35 +95,40 @@ public class UIManager : MonoBehaviour {
         {
             cs = clicked.transform.parent.parent.GetComponent<CollapseSection>();
         }
+        
         Image btn = clicked.GetComponent<Image>();
-        // For default buttons
-        if (pn != "Color")
-        {
-            // Colors
-            List<Image> siblings = siblings = clicked.transform.parent.GetComponentsInChildren<Image>().ToList();
 
-            foreach (Image sibling in siblings)
+        if (SceneManager.GetActiveScene().name != "login")
+        {
+            // For default buttons
+            if (pn != "Color")
             {
-                if (sibling != btn)
+                // Colors
+                List<Image> siblings = siblings = clicked.transform.parent.GetComponentsInChildren<Image>().ToList();
+
+                foreach (Image sibling in siblings)
                 {
-                    sibling.color = btn.color;
+                    if (sibling != btn)
+                    {
+                        sibling.color = btn.color;
+                    }
                 }
             }
-        } else
-        {
-            // Set all buttons to original color besides current button
-            foreach(Image option in colorOptions.Keys)
+            else
             {
-                if(option != btn)
+                // Set all buttons to original color besides current button
+                foreach (Image option in colorOptions.Keys)
                 {
-                    option.color = colorOptions[option];
+                    if (option != btn)
+                    {
+                        option.color = colorOptions[option];
+                    }
                 }
-            }
-        } // For color options
+            } // For color options
 
-        Color newColor = new Color(btn.color.r * 0.7f, btn.color.g * 0.7f, btn.color.b * 0.7f);
-        btn.color = newColor;
-
+            Color newColor = new Color(btn.color.r * 0.7f, btn.color.g * 0.7f, btn.color.b * 0.7f);
+            btn.color = newColor;
+        }
         if (pn == "Color")
         {
             UserManager.Instance.favoriteColor = val;
@@ -164,5 +172,6 @@ public class UIManager : MonoBehaviour {
     public void LogOutBtn()
     {
         UserManager.Instance.LogOut();
+        SceneManager.LoadScene("login");
     }
 }

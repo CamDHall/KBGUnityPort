@@ -11,7 +11,9 @@ using UnityEngine.SceneManagement;
 public class UserManager : MonoBehaviour {
     public static UserManager Instance;
     Firebase.Auth.FirebaseAuth auth;
+
     FirebaseUser user;
+    public IDictionary _data;
     FirebaseDatabase db;
 
     public InputField userNameField, passwordField;
@@ -92,6 +94,13 @@ public class UserManager : MonoBehaviour {
             }
 
             user = task.Result;
+            db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
+            {
+                _data = (IDictionary)t.Result.Value;
+
+                UIManager.Instance.DisplayError("Here: "+ _data["gender"]);
+                SceneManager.LoadScene("AvatarScene");
+            });
             
         });
     }
