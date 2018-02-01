@@ -4,29 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public enum Parts { Skin, Hair, Cloth, Hat};
 public class AvatarController : MonoBehaviour {
-
-    GameObject avatar;
-    Color hairColor, mainColor, secondaryColor;
 	
-    Parts activePart = Parts.Skin;
     public ScrollRect vw;
     public RectTransform skin, hair, hat, cloth;
-
-	void Start () {
+    string gender;
+	void Awake () {
         GameObject temp;
 
         // For testing just this scene
         if (UserManager.Instance == null)
         {
             temp = Resources.Load("Boy") as GameObject;
-            
+            gender = "Boy";            
         }
         else
         {
-
-            if (UserManager.Instance._data["gender"].ToString() == "Boy")
+            gender = UserManager.Instance._data["gender"].ToString();
+            if (gender == "Boy")
             {
                 temp = Resources.Load("Boy") as GameObject;
             }
@@ -36,8 +31,7 @@ public class AvatarController : MonoBehaviour {
             }
         }
 
-        avatar = Instantiate(temp, transform);
-        avatar.transform.localPosition = Vector2.zero;
+        Avatar.Instance.SetupAvatar(gender, temp);
 	}
 
     public void ChangeScrollContent()
@@ -65,5 +59,29 @@ public class AvatarController : MonoBehaviour {
             vw.content = cloth;
             cloth.gameObject.SetActive(true);
         }
+    }
+
+    public void SetColor()
+    {
+        Button clicked = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        string pName = clicked.transform.name;
+        Color _color = clicked.colors.normalColor;
+
+        if(pName == "Skin")
+        {
+            Avatar.Instance.skinColor = _color;
+        } else if(pName == "Hair")
+        {
+            Avatar.Instance.hairColor = _color;
+        } else if(pName == "Hat")
+        {
+            Avatar.Instance.colorHatPrime = _color;
+        } else if(pName == "Cloth")
+        {
+            Avatar.Instance.colorClothPrime = _color;
+        }
+
+        Avatar.Instance.UpdateAvatar(pName, _color);
+        UserManager.Instance.UpdateUserData(pName, _color.ToString());
     }
 }

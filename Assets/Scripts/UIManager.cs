@@ -153,8 +153,9 @@ public class UIManager : MonoBehaviour {
            cs.ageSelected = true;
             UserManager.Instance.ageGroup = val;
         }
-
-        cs.Collapse();
+        
+        if(cs != null)
+            cs.Collapse();
     }
 
     public void DisplayError(string message)

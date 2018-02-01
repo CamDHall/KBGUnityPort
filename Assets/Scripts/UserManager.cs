@@ -94,13 +94,7 @@ public class UserManager : MonoBehaviour {
             }
 
             user = task.Result;
-            db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
-            {
-                _data = (IDictionary)t.Result.Value;
-
-                UIManager.Instance.DisplayError("Here: "+ _data["gender"]);
-                SceneManager.LoadScene("AvatarScene");
-            });
+            GetUserData();
             
         });
     }
@@ -184,10 +178,33 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("hobby").SetValueAsync(hobby);
         db.GetReference("users").Child(user.UserId).Child("likes").SetValueAsync(likes);
         db.GetReference("users").Child(user.UserId).Child("quality").SetValueAsync(quality);
+
+        db.GetReference("users").Child(user.UserId).Child("skinColor").SetValueAsync("#FFCD94FF");
+        db.GetReference("users").Child(user.UserId).Child("hairColor").SetValueAsync("#090806FF");
+        db.GetReference("users").Child(user.UserId).Child("hatColor").SetValueAsync("#EE3D57FF");
+        db.GetReference("users").Child(user.UserId).Child("clothColor").SetValueAsync("#EE3D57FF");
+
+
     }
 
     public void LogOut()
     {
         auth.SignOut();
+    }
+
+    public void UpdateUserData(string key, string val)
+    {
+
+    }
+
+    public void GetUserData()
+    {
+        db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
+        {
+            _data = (IDictionary)t.Result.Value;
+
+            UIManager.Instance.DisplayError("Here: " + _data["gender"]);
+            SceneManager.LoadScene("AvatarScene");
+        });
     }
 }

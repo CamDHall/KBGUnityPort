@@ -9,6 +9,13 @@ TagManager:
   - ScrollView
   - Color
   - Icon
+  - Skin
+  - Shadow
+  - Hair
+  - PrimaryCloth
+  - PrimaryHat
+  - SecondaryCloth
+  - SecondaryHat
   layers:
   - Default
   - TransparentFX
