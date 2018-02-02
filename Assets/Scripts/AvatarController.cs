@@ -64,7 +64,7 @@ public class AvatarController : MonoBehaviour {
     public void SetColor()
     {
         Button clicked = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-        string pName = clicked.transform.name;
+        string pName = clicked.transform.parent.name;
         Color _color = clicked.colors.normalColor;
 
         if(pName == "Skin")
