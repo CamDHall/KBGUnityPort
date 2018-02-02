@@ -63,6 +63,11 @@ public class Avatar : MonoBehaviour {
 
     public void UpdateAvatar(string part, Color newColor)
     {
+        colorClothSecond = colorClothPrime * 0.7f;
+        colorHatSecond = colorHatPrime * 0.7f;
+
+        colorClothSecond.a = 1;
+        colorHatSecond.a = 1;
 
         if (part == "Cloth")
         {
@@ -80,9 +85,7 @@ public class Avatar : MonoBehaviour {
         } else if(part == "Hair")
         {
             foreach (SpriteRenderer s in spriteHair) s.color = hairColor;
-        } 
-
-
+        }
     }
 
     void SetLocalData()
