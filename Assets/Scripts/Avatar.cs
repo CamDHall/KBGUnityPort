@@ -92,9 +92,9 @@ public class Avatar : MonoBehaviour {
     {
         ColorUtility.TryParseHtmlString(UserManager.Instance._data["skinColor"].ToString(), out skinColor);
         ColorUtility.TryParseHtmlString(UserManager.Instance._data["hairColor"].ToString(), out hairColor);
-        ColorUtility.TryParseHtmlString(UserManager.Instance._data["hatColor"].ToString(), out colorHatPrime);
-        ColorUtility.TryParseHtmlString(UserManager.Instance._data["clothColor"].ToString(), out colorClothPrime);
-
+        ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorHatPrime"].ToString(), out colorHatPrime);
+        ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorClothPrime"].ToString(), out colorClothPrime);
+        
         colorClothSecond = colorClothPrime * 0.8f;
         colorHatSecond = colorHatPrime * 0.8f;        
 

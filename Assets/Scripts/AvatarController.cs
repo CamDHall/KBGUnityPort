@@ -9,8 +9,10 @@ public class AvatarController : MonoBehaviour {
     public ScrollRect vw;
     public RectTransform skin, hair, hat, cloth;
     string gender;
-	void Awake () {
-        GameObject temp;
+
+    GameObject temp;
+
+    void Awake () {
 
         // For testing just this scene
         if (UserManager.Instance == null)
@@ -21,6 +23,7 @@ public class AvatarController : MonoBehaviour {
         else
         {
             gender = UserManager.Instance._data["gender"].ToString();
+          
             if (gender == "Boy")
             {
                 temp = Resources.Load("Boy") as GameObject;
@@ -30,9 +33,12 @@ public class AvatarController : MonoBehaviour {
                 temp = Resources.Load("Girl") as GameObject;
             }
         }
-
-        Avatar.Instance.SetupAvatar(gender, temp);
 	}
+
+    private void Start()
+    {
+        Avatar.Instance.SetupAvatar(gender, temp);
+    }
 
     public void ChangeScrollContent()
     {

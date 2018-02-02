@@ -13,7 +13,7 @@ public class UserManager : MonoBehaviour {
     Firebase.Auth.FirebaseAuth auth;
 
     FirebaseUser user;
-    public IDictionary _data;
+    public IDictionary _data = new Dictionary<string, string>();
     FirebaseDatabase db;
 
     public InputField userNameField, passwordField;
@@ -158,10 +158,13 @@ public class UserManager : MonoBehaviour {
 
         db.GetReference("users").Child(user.UserId).Child("skinColor").SetValueAsync("#FFCD94FF");
         db.GetReference("users").Child(user.UserId).Child("hairColor").SetValueAsync("#090806FF");
-        db.GetReference("users").Child(user.UserId).Child("hatColor").SetValueAsync("#EE3D57FF");
-        db.GetReference("users").Child(user.UserId).Child("clothColor").SetValueAsync("#EE3D57FF");
+        db.GetReference("users").Child(user.UserId).Child("colorHatPrime").SetValueAsync("#EE3D57FF");
+        db.GetReference("users").Child(user.UserId).Child("colorClothPrime").SetValueAsync("#EE3D57FF");
 
-
+        _data["skinColor"] = "#FFCD94FF";
+        _data["hairColor"] = "#090806FF";
+        _data["colorHatPrime"] = "#EE3D57FF";
+        _data["colorClothPrime"] = "#EE3D57FF";
     }
 
     public void LogOut()
@@ -176,12 +179,10 @@ public class UserManager : MonoBehaviour {
 
     public void GetUserData()
     {
+        Debug.Log("GETUSERDATA");
         db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
         {
             _data = (IDictionary)t.Result.Value;
-
-            UIManager.Instance.DisplayError("Here: " + _data["gender"]);
-            SceneManager.LoadScene("AvatarScene");
         });
     }
 }
