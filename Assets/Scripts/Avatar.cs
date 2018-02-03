@@ -50,15 +50,8 @@ public class Avatar : MonoBehaviour {
         }
 
         SetLocalData();
-
+        
         gender = ingender;
-        if(gender == "Boy")
-        {
-
-        } else
-        {
-
-        }
     }
 
     public void UpdateAvatar(string part, Color newColor)
@@ -90,13 +83,17 @@ public class Avatar : MonoBehaviour {
 
     void SetLocalData()
     {
+        UserManager.Instance.GetUserData();
         ColorUtility.TryParseHtmlString(UserManager.Instance._data["skinColor"].ToString(), out skinColor);
+        //Debug.Log("Hair: " + hairColor);
         ColorUtility.TryParseHtmlString(UserManager.Instance._data["hairColor"].ToString(), out hairColor);
+        //Debug.Log("hat: " + colorHatPrime);
         ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorHatPrime"].ToString(), out colorHatPrime);
+        //Debug.Log("Cloth: " + colorClothPrime);
         ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorClothPrime"].ToString(), out colorClothPrime);
         
-        colorClothSecond = colorClothPrime * 0.8f;
-        colorHatSecond = colorHatPrime * 0.8f;        
+        colorClothSecond = colorClothPrime * 0.7f;
+        colorHatSecond = colorHatPrime * 0.7f;        
 
         colorClothSecond.a = 1;
         colorHatSecond.a = 1;

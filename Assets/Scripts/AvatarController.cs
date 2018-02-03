@@ -13,7 +13,6 @@ public class AvatarController : MonoBehaviour {
     GameObject temp;
 
     void Awake () {
-
         // For testing just this scene
         if (UserManager.Instance == null)
         {

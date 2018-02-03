@@ -15,6 +15,7 @@ public class UserManager : MonoBehaviour {
     FirebaseUser user;
     public IDictionary _data = new Dictionary<string, string>();
     FirebaseDatabase db;
+    DataSnapshot snapshot;
 
     public InputField userNameField, passwordField;
     public string gender, ageGroup, _name, _username, email, password; // Registeration
@@ -57,7 +58,7 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").GetValueAsync().ContinueWith(task => {
             if (task.IsFaulted)
             {
-                Debug.Log(task.Exception);
+                Debug.Log("SIGN IN ERROR");
             }
             else if (task.IsCompleted)
             {
@@ -93,6 +94,7 @@ public class UserManager : MonoBehaviour {
 
             user = task.Result;
             GetUserData();
+            SceneManager.LoadScene("AvatarScene");
         });
     }
 
@@ -174,15 +176,24 @@ public class UserManager : MonoBehaviour {
 
     public void UpdateUserData(string key, string val)
     {
+        _data[key] = val;
+        db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
 
+        Debug.Log("KEY: " + key + " VAL: " + val);
     }
 
     public void GetUserData()
     {
-        Debug.Log("GETUSERDATA");
         db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
         {
-            _data = (IDictionary)t.Result.Value;
+            if(t.IsCompleted)
+            {
+                snapshot = t.Result;
+            }
+            //_data = (IDictionary)t.Result.Value;
+            //Debug.Log("RESULT: " + t.Result.Value);
         });
+
+        _data = (IDictionary)snapshot.Value;
     }
 }
