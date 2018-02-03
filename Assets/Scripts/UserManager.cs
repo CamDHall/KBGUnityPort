@@ -94,6 +94,9 @@ public class UserManager : MonoBehaviour {
 
             user = task.Result;
             GetUserData();
+            // Loading Icon
+           // Image loadingObj = Instantiate(Resources.Load("loadingObj") as Image);
+            
             SceneManager.LoadScene("AvatarScene");
         });
     }
@@ -158,15 +161,15 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("likes").SetValueAsync(likes);
         db.GetReference("users").Child(user.UserId).Child("quality").SetValueAsync(quality);
 
-        db.GetReference("users").Child(user.UserId).Child("skinColor").SetValueAsync("#FFCD94FF");
-        db.GetReference("users").Child(user.UserId).Child("hairColor").SetValueAsync("#090806FF");
-        db.GetReference("users").Child(user.UserId).Child("colorHatPrime").SetValueAsync("#EE3D57FF");
-        db.GetReference("users").Child(user.UserId).Child("colorClothPrime").SetValueAsync("#EE3D57FF");
+        db.GetReference("users").Child(user.UserId).Child("skinColor").SetValueAsync("RGBA(1.00, 0.803, 0.580, 1.00)");
+        db.GetReference("users").Child(user.UserId).Child("hairColor").SetValueAsync("RGBA(0.00, 0.00, 0.00, 1.00)");
+        db.GetReference("users").Child(user.UserId).Child("colorHatPrime").SetValueAsync("RGBA(0.933, 0.293, 0.341, 1.00)");
+        db.GetReference("users").Child(user.UserId).Child("colorClothPrime").SetValueAsync("RGBA(0.933, 0.293, 0.341, 1.00)");
 
-        _data["skinColor"] = "#FFCD94FF";
-        _data["hairColor"] = "#090806FF";
-        _data["colorHatPrime"] = "#EE3D57FF";
-        _data["colorClothPrime"] = "#EE3D57FF";
+        _data["skinColor"] = "RGBA(1.00, 0.803, 0.580, 1.00)";
+        _data["hairColor"] = "RGBA(0.00, 0.00, 0.00, 1.00)";
+        _data["colorHatPrime"] = "RGBA(0.933, 0.293, 0.341)";
+        _data["colorClothPrime"] = "RGBA(0.933, 0.293, 0.341)";
     }
 
     public void LogOut()
@@ -178,8 +181,6 @@ public class UserManager : MonoBehaviour {
     {
         _data[key] = val;
         db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
-
-        Debug.Log("KEY: " + key + " VAL: " + val);
     }
 
     public void GetUserData()

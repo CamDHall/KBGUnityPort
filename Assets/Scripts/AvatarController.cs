@@ -72,16 +72,16 @@ public class AvatarController : MonoBehaviour {
         string pName = clicked.transform.parent.name;
         Color _color = clicked.colors.normalColor;
 
-        if(pName == "Skin")
+        if(pName == "skinColor")
         {
             Avatar.Instance.skinColor = _color;
-        } else if(pName == "Hair")
+        } else if(pName == "hairColor")
         {
             Avatar.Instance.hairColor = _color;
-        } else if(pName == "Hat")
+        } else if(pName == "colorHatPrime")
         {
             Avatar.Instance.colorHatPrime = _color;
-        } else if(pName == "Cloth")
+        } else if(pName == "colorClothPrime")
         {
             Avatar.Instance.colorClothPrime = _color;
         }

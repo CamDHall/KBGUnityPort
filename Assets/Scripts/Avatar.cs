@@ -62,21 +62,31 @@ public class Avatar : MonoBehaviour {
         colorClothSecond.a = 1;
         colorHatSecond.a = 1;
 
-        if (part == "Cloth")
+        if (part == "colorClothPrime")
         {
+            colorClothPrime = newColor;
+            colorClothSecond = colorClothPrime * 0.7f;
+            colorClothSecond.a = 1;
+
             foreach (SpriteRenderer s in primaryClothes) s.color = colorClothPrime;
             foreach (SpriteRenderer s in secondaryClothes) s.color = colorClothSecond;
         }
-        else if (part == "Hat")
+        else if (part == "colorHatPrime")
         {
+            colorHatPrime = newColor;
+            colorHatSecond = colorClothPrime * 0.7f;
+            colorHatSecond.a = 1;
+
             foreach (SpriteRenderer s in primaryHat) s.color = colorHatPrime;
             foreach (SpriteRenderer s in secondaryHat) s.color = colorHatSecond;
         }
-        else if (part == "Skin")
+        else if (part == "skinColor")
         {
+            skinColor = newColor;
             foreach (SpriteRenderer s in spriteSkin) s.color = skinColor;
-        } else if(part == "Hair")
+        } else if(part == "hairColor")
         {
+            hairColor = newColor;
             foreach (SpriteRenderer s in spriteHair) s.color = hairColor;
         }
     }
@@ -84,13 +94,19 @@ public class Avatar : MonoBehaviour {
     void SetLocalData()
     {
         UserManager.Instance.GetUserData();
-        ColorUtility.TryParseHtmlString(UserManager.Instance._data["skinColor"].ToString(), out skinColor);
+
+        skinColor = Utils.GenerateColor(UserManager.Instance._data["skinColor"].ToString());
+        hairColor = Utils.GenerateColor(UserManager.Instance._data["hairColor"].ToString());
+        colorHatPrime = Utils.GenerateColor(UserManager.Instance._data["colorHatPrime"].ToString());
+        colorClothPrime = Utils.GenerateColor(UserManager.Instance._data["colorClothPrime"].ToString());
+
+        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["skinColor"].ToString(), out skinColor);
         //Debug.Log("Hair: " + hairColor);
-        ColorUtility.TryParseHtmlString(UserManager.Instance._data["hairColor"].ToString(), out hairColor);
+        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["hairColor"].ToString(), out hairColor);
         //Debug.Log("hat: " + colorHatPrime);
-        ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorHatPrime"].ToString(), out colorHatPrime);
+        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorHatPrime"].ToString(), out colorHatPrime);
         //Debug.Log("Cloth: " + colorClothPrime);
-        ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorClothPrime"].ToString(), out colorClothPrime);
+        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorClothPrime"].ToString(), out colorClothPrime);
         
         colorClothSecond = colorClothPrime * 0.7f;
         colorHatSecond = colorHatPrime * 0.7f;        
@@ -107,6 +123,8 @@ public class Avatar : MonoBehaviour {
         foreach (SpriteRenderer s in secondaryClothes) s.color = colorClothSecond;
         foreach (SpriteRenderer s in primaryHat) s.color = colorHatPrime;
         foreach (SpriteRenderer s in secondaryHat) s.color = colorHatSecond;
+
+        Debug.Log("WTF: " + skinColor);
 
         shadow.color = shadowColor;
     }
