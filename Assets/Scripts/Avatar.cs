@@ -17,8 +17,8 @@ public class Avatar : MonoBehaviour {
     List<SpriteRenderer> primaryHat = new List<SpriteRenderer>();
     List<SpriteRenderer> spriteSkin = new List<SpriteRenderer>();
     List<SpriteRenderer> secondaryClothes = new List<SpriteRenderer>();
-    List<SpriteRenderer> secondaryHat = new List<SpriteRenderer>();
-    SpriteRenderer shadow;
+
+    SpriteRenderer shadow, secondaryHat;
 
     public Text testError;
 
@@ -34,6 +34,12 @@ public class Avatar : MonoBehaviour {
         avatarObj = Instantiate(temp, transform);
         avatarObj.transform.localPosition = Vector2.zero;
 
+        colorHatSecond = colorHatPrime * 1.2f;
+        colorHatSecond.a = 1;
+
+        colorClothSecond = colorClothSecond * 1.2f;
+        colorClothSecond.a = 1;
+
         SpriteRenderer[] childSprites = avatarObj.GetComponentsInChildren<SpriteRenderer>();
 
         foreach(SpriteRenderer s in childSprites)
@@ -45,7 +51,10 @@ public class Avatar : MonoBehaviour {
             if (s.tag == "Hair") spriteHair.Add(s);
             if (s.tag == "PrimaryHat") primaryHat.Add(s);
             if (s.tag == "SecondaryCloth") secondaryClothes.Add(s);
-            if (s.tag == "SecondaryHat") secondaryHat.Add(s);
+            if (s.tag == "SecondaryHat")
+            {
+                secondaryHat = s;
+            }
             if (s.tag == "Shadow") shadow = s;
         }
 
@@ -56,8 +65,8 @@ public class Avatar : MonoBehaviour {
 
     public void UpdateAvatar(string part, Color newColor)
     {
-        colorClothSecond = colorClothPrime * 0.7f;
-        colorHatSecond = colorHatPrime * 0.7f;
+        colorClothSecond = colorClothPrime * 1.2f;
+        colorHatSecond = colorHatPrime * 1.2f;
 
         colorClothSecond.a = 1;
         colorHatSecond.a = 1;
@@ -65,7 +74,7 @@ public class Avatar : MonoBehaviour {
         if (part == "colorClothPrime")
         {
             colorClothPrime = newColor;
-            colorClothSecond = colorClothPrime * 0.7f;
+            colorClothSecond = colorClothPrime * 1.2f;
             colorClothSecond.a = 1;
 
             foreach (SpriteRenderer s in primaryClothes) s.color = colorClothPrime;
@@ -74,11 +83,10 @@ public class Avatar : MonoBehaviour {
         else if (part == "colorHatPrime")
         {
             colorHatPrime = newColor;
-            colorHatSecond = colorClothPrime * 0.7f;
-            colorHatSecond.a = 1;
-
+            colorHatSecond = colorHatPrime * 1.2f;
+            colorHatSecond.a = 1.00f;
             foreach (SpriteRenderer s in primaryHat) s.color = colorHatPrime;
-            foreach (SpriteRenderer s in secondaryHat) s.color = colorHatSecond;
+            secondaryHat.color = colorHatSecond;
         }
         else if (part == "skinColor")
         {
@@ -100,24 +108,21 @@ public class Avatar : MonoBehaviour {
         colorHatPrime = Utils.GenerateColor(UserManager.Instance._data["colorHatPrime"].ToString());
         colorClothPrime = Utils.GenerateColor(UserManager.Instance._data["colorClothPrime"].ToString());
         
-        colorClothSecond = colorClothPrime * 0.7f;
-        colorHatSecond = colorHatPrime * 0.7f;        
+        colorClothSecond = colorClothPrime * 1.2f;
+        colorHatSecond = colorHatPrime * 1.2f;        
 
         colorClothSecond.a = 1;
         colorHatSecond.a = 1;
 
         shadowColor = Color.grey;
-        shadowColor.a = 0.8f;
 
         foreach (SpriteRenderer s in spriteSkin) s.color = skinColor;
         foreach (SpriteRenderer s in spriteHair) s.color = hairColor;
         foreach (SpriteRenderer s in primaryClothes) s.color = colorClothPrime;
         foreach (SpriteRenderer s in secondaryClothes) s.color = colorClothSecond;
         foreach (SpriteRenderer s in primaryHat) s.color = colorHatPrime;
-        foreach (SpriteRenderer s in secondaryHat) s.color = colorHatSecond;
 
-        Debug.Log("WTF: " + skinColor);
-
+        secondaryHat.color = colorHatSecond;
         shadow.color = shadowColor;
     }
 }

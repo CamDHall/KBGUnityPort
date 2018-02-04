@@ -86,7 +86,7 @@ public class AvatarController : MonoBehaviour {
             Avatar.Instance.colorClothPrime = _color;
         }
 
-        Avatar.Instance.UpdateAvatar(pName, _color);
         UserManager.Instance.UpdateUserData(pName, _color.ToString());
+        Avatar.Instance.UpdateAvatar(pName, _color);
     }
 }

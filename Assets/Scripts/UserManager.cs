@@ -185,6 +185,8 @@ public class UserManager : MonoBehaviour {
     {
         _data[key] = val;
         db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
+
+        Debug.Log("VAL: " + _data[key]);
     }
 
     public void GetUserData()
@@ -195,8 +197,6 @@ public class UserManager : MonoBehaviour {
             {
                 snapshot = t.Result;
             }
-            //_data = (IDictionary)t.Result.Value;
-            //Debug.Log("RESULT: " + t.Result.Value);
         });
 
         _data = (IDictionary)snapshot.Value;
