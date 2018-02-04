@@ -99,14 +99,6 @@ public class Avatar : MonoBehaviour {
         hairColor = Utils.GenerateColor(UserManager.Instance._data["hairColor"].ToString());
         colorHatPrime = Utils.GenerateColor(UserManager.Instance._data["colorHatPrime"].ToString());
         colorClothPrime = Utils.GenerateColor(UserManager.Instance._data["colorClothPrime"].ToString());
-
-        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["skinColor"].ToString(), out skinColor);
-        //Debug.Log("Hair: " + hairColor);
-        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["hairColor"].ToString(), out hairColor);
-        //Debug.Log("hat: " + colorHatPrime);
-        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorHatPrime"].ToString(), out colorHatPrime);
-        //Debug.Log("Cloth: " + colorClothPrime);
-        //ColorUtility.TryParseHtmlString(UserManager.Instance._data["colorClothPrime"].ToString(), out colorClothPrime);
         
         colorClothSecond = colorClothPrime * 0.7f;
         colorHatSecond = colorHatPrime * 0.7f;        

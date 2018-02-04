@@ -174,6 +174,10 @@ public class UserManager : MonoBehaviour {
 
     public void LogOut()
     {
+        foreach(string key in _data.Keys)
+        {
+            db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(_data[key]);
+        }
         auth.SignOut();
     }
 
