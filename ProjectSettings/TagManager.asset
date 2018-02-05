@@ -16,6 +16,7 @@ TagManager:
   - PrimaryHat
   - SecondaryCloth
   - SecondaryHat
+  - Canvas
   layers:
   - Default
   - TransparentFX

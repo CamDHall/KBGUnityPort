@@ -22,6 +22,10 @@ public class UserManager : MonoBehaviour {
     public string favoriteColor, subject, hobby, likes, quality; // Quiz
 
     public bool cPassword = false;
+    bool loading = false;
+
+    GameObject canvas;
+    GameObject img;
 
     private void Awake()
     {
@@ -34,6 +38,30 @@ public class UserManager : MonoBehaviour {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
     }
 
+    private void Start()
+    {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+    }
+
+    private void Update()
+    {
+        if(!loading && img.activeSelf)
+        {
+            img.SetActive(false);
+        }
+
+        if(loading && !img.activeSelf)
+        {
+            img.SetActive(true);
+        }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        loading = false;
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+    }
+
     void InitializeFirebase()
     {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
@@ -41,18 +69,28 @@ public class UserManager : MonoBehaviour {
 
     public void SignInAttempt()
     {
+
         UIManager.Instance.errorMessage.gameObject.SetActive(false);
         string username = userNameField.text;
         string password = passwordField.text;
 
         if(username == "" || username.Length < 3)
         {
+            loading = false;
+
             UIManager.Instance.DisplayError("Please provide a valid username.");
             return;
         } else if(password == "" || password.Length < 6)
         {
             UIManager.Instance.DisplayError("Please provide a valid password");
             return;
+        }
+
+        if (!loading)
+        {
+            img = Instantiate(Resources.Load("LoadingImage") as GameObject);
+            img.transform.SetParent(canvas.transform, false);
+            loading = true;
         }
 
         db.GetReference("users").GetValueAsync().ContinueWith(task => {
@@ -88,6 +126,7 @@ public class UserManager : MonoBehaviour {
             }
             if (task.IsFaulted)
             {
+                loading = false;
                 UIManager.Instance.DisplayError("Invalid Password. Try Again or Press Forgot Password.");
                 return;
             }
