@@ -7,6 +7,8 @@ public class Avatar : MonoBehaviour {
 
     public static Avatar Instance;
 
+    public GameObject boy, girl;
+
     [HideInInspector] public Color hairColor, skinColor, colorHatPrime, colorClothPrime, colorClothSecond, colorHatSecond, shadowColor;
 
     GameObject avatarObj;
@@ -31,7 +33,10 @@ public class Avatar : MonoBehaviour {
 
     public void SetupAvatar(string ingender, GameObject temp)
     {
-        avatarObj = Instantiate(temp, transform);
+        avatarObj = Instantiate(temp);
+        if(UserManager.Instance._data["gender"].ToString() == "Girl") avatarObj.transform.SetParent(girl.transform);
+        else avatarObj.transform.SetParent(boy.transform);
+
         avatarObj.transform.localPosition = Vector2.zero;
 
         colorHatSecond = colorHatPrime * 1.2f;

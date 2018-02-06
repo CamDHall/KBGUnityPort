@@ -29,7 +29,16 @@ public class UserManager : MonoBehaviour {
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+        DontDestroyOnLoad(gameObject);
         // Set up the Editor before calling into the realtime database.
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://kids-break-ground.firebaseio.com");
         db = Firebase.Database.FirebaseDatabase.DefaultInstance;
@@ -45,14 +54,17 @@ public class UserManager : MonoBehaviour {
 
     private void Update()
     {
-        if(!loading && img.activeSelf)
+        if (img != null)
         {
-            img.SetActive(false);
-        }
+            if (!loading && img.activeSelf)
+            {
+                img.SetActive(false);
+            }
 
-        if(loading && !img.activeSelf)
-        {
-            img.SetActive(true);
+            if (loading && !img.activeSelf)
+            {
+                img.SetActive(true);
+            }
         }
     }
 
@@ -101,15 +113,23 @@ public class UserManager : MonoBehaviour {
             else if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
+                bool found = false;
+
                 foreach (DataSnapshot user in snapshot.Children)
                 {
                     IDictionary dictUser = (IDictionary)user.Value;
 
                     if(dictUser["username"].ToString() == username)
                     {
+                        found = true;
                         string email = dictUser["email"].ToString();
                         LogIn(email, password);
                     }
+                }
+                if (!found)
+                {
+                    UIManager.Instance.DisplayError("Username not found.");
+                    loading = false;
                 }
             }
         });
@@ -133,8 +153,6 @@ public class UserManager : MonoBehaviour {
 
             user = task.Result;
             GetUserData();
-            // Loading Icon
-           // Image loadingObj = Instantiate(Resources.Load("loadingObj") as Image);
             
             SceneManager.LoadScene("AvatarScene");
         });
@@ -209,6 +227,7 @@ public class UserManager : MonoBehaviour {
         _data["hairColor"] = "RGBA(0.00, 0.00, 0.00, 1.00)";
         _data["colorHatPrime"] = "RGBA(0.933, 0.293, 0.341)";
         _data["colorClothPrime"] = "RGBA(0.933, 0.293, 0.341)";
+        _data["gender"] = gender;
     }
 
     public void LogOut()

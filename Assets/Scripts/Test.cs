@@ -9,8 +9,6 @@ public class Test : MonoBehaviour {
     public SpriteRenderer img;
 
 	void Start () {
-        col *= 1.2f;
-        col.a = 1;
-        img.color = col;
+        GameObject temp = Instantiate(Resources.Load("Girl") as GameObject);
     }
 }

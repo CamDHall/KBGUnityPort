@@ -175,4 +175,9 @@ public class UIManager : MonoBehaviour {
         UserManager.Instance.LogOut();
         SceneManager.LoadScene("login");
     }
+
+    public void GoToHouse()
+    {
+        SceneManager.LoadScene("House");
+    }
 }

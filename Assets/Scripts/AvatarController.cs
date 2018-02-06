@@ -13,29 +13,24 @@ public class AvatarController : MonoBehaviour {
     GameObject temp;
 
     void Awake () {
-        // For testing just this scene
-        if (UserManager.Instance == null)
-        {
-            temp = Resources.Load("Boy") as GameObject;
-            gender = "Boy";            
-        }
-        else
-        {
-            gender = UserManager.Instance._data["gender"].ToString();
-          
-            if (gender == "Boy")
-            {
-                temp = Resources.Load("Boy") as GameObject;
-            }
-            else
-            {
-                temp = Resources.Load("Girl") as GameObject;
-            }
-        }
+
 	}
 
     private void Start()
     {
+        gender = UserManager.Instance.gender;
+        Debug.Log("UM: " + UserManager.Instance);
+        Debug.Log("AWAKE: " + gender);
+        gender = UserManager.Instance._data["gender"].ToString();
+
+        if (gender == "Boy")
+        {
+            temp = Resources.Load("Boy") as GameObject;
+        }
+        else
+        {
+            temp = Resources.Load("Girl") as GameObject;
+        }
         Avatar.Instance.SetupAvatar(gender, temp);
     }
 
