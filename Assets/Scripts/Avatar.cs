@@ -66,6 +66,7 @@ public class Avatar : MonoBehaviour {
         SetLocalData();
         
         gender = ingender;
+        UserManager.Instance.avatarObj = avatarObj;
     }
 
     public void UpdateAvatar(string part, Color newColor)

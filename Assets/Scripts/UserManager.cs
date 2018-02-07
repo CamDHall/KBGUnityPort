@@ -26,6 +26,7 @@ public class UserManager : MonoBehaviour {
 
     GameObject canvas;
     GameObject img;
+    public GameObject avatarObj;
 
     private void Awake()
     {
@@ -223,11 +224,24 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("colorHatPrime").SetValueAsync("RGBA(0.933, 0.293, 0.341, 1.00)");
         db.GetReference("users").Child(user.UserId).Child("colorClothPrime").SetValueAsync("RGBA(0.933, 0.293, 0.341, 1.00)");
 
+        db.GetReference("users").Child(user.UserId).Child("door").SetValueAsync("door");
+        db.GetReference("users").Child(user.UserId).Child("roof").SetValueAsync("roof1");
+        db.GetReference("users").Child(user.UserId).Child("wall").SetValueAsync("wallstyle1");
+
+        //
+        // Local
+        //
+
         _data["skinColor"] = "RGBA(1.00, 0.803, 0.580, 1.00)";
         _data["hairColor"] = "RGBA(0.00, 0.00, 0.00, 1.00)";
         _data["colorHatPrime"] = "RGBA(0.933, 0.293, 0.341)";
         _data["colorClothPrime"] = "RGBA(0.933, 0.293, 0.341)";
         _data["gender"] = gender;
+
+        // House
+        _data["door"] = "door";
+        _data["roof"] = "roof1";
+        _data["wall"] = "wallstyle1";
     }
 
     public void LogOut()
@@ -243,8 +257,6 @@ public class UserManager : MonoBehaviour {
     {
         _data[key] = val;
         db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
-
-        Debug.Log("VAL: " + _data[key]);
     }
 
     public void GetUserData()

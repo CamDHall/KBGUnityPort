@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class Test : MonoBehaviour {
 
-    public Color col;
-    public SpriteRenderer img;
-
 	void Start () {
-        GameObject temp = Instantiate(Resources.Load("Girl") as GameObject);
+        //Sprite temp = (Resources.Load("door") as GameObject).GetComponent<SpriteRenderer>().sprite;
+
+        GetComponent<SpriteRenderer>().sprite = (Resources.Load("door") as GameObject).GetComponent<SpriteRenderer>().sprite;
     }
 }

@@ -17,6 +17,8 @@ TagManager:
   - SecondaryCloth
   - SecondaryHat
   - Canvas
+  - Boy
+  - Girl
   layers:
   - Default
   - TransparentFX

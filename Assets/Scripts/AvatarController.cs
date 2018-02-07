@@ -12,15 +12,8 @@ public class AvatarController : MonoBehaviour {
 
     GameObject temp;
 
-    void Awake () {
-
-	}
-
     private void Start()
     {
-        gender = UserManager.Instance.gender;
-        Debug.Log("UM: " + UserManager.Instance);
-        Debug.Log("AWAKE: " + gender);
         gender = UserManager.Instance._data["gender"].ToString();
 
         if (gender == "Boy")
