@@ -176,8 +176,10 @@ public class UIManager : MonoBehaviour {
         SceneManager.LoadScene("login");
     }
 
-    public void GoToHouse()
+    public void GoToScene()
     {
-        SceneManager.LoadScene("House");
+        GameObject clicked = EventSystem.current.currentSelectedGameObject;
+        string _name = clicked.name;
+        SceneManager.LoadScene(_name);
     }
 }

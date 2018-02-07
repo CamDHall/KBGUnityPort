@@ -19,6 +19,7 @@ TagManager:
   - Canvas
   - Boy
   - Girl
+  - Item
   layers:
   - Default
   - TransparentFX

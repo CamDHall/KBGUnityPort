@@ -228,6 +228,8 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("roof").SetValueAsync("roof1");
         db.GetReference("users").Child(user.UserId).Child("wall").SetValueAsync("wallstyle1");
 
+        db.GetReference("users").Child(user.UserId).Child("coins").SetValueAsync("0");
+
         //
         // Local
         //
@@ -242,6 +244,10 @@ public class UserManager : MonoBehaviour {
         _data["door"] = "door";
         _data["roof"] = "roof1";
         _data["wall"] = "wallstyle1";
+
+        // Coin and qualities
+        _data["coins"] = "0";
+
     }
 
     public void LogOut()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class HouseManager : MonoBehaviour {
 
     public GameObject doorContainer, roofContainer, wallContainer;
-
+    public GameObject boy, girl;
     private void OnLevelWasLoaded(int level)
     {
         SetupHouse();
