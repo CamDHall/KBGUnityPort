@@ -228,7 +228,7 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("roof").SetValueAsync("roof1");
         db.GetReference("users").Child(user.UserId).Child("wall").SetValueAsync("wallstyle1");
 
-        db.GetReference("users").Child(user.UserId).Child("coins").SetValueAsync("0");
+        db.GetReference("users").Child(user.UserId).Child("coins").SetValueAsync(0);
 
         //
         // Local
@@ -265,6 +265,12 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
     }
 
+    public void UpdateUserData(string key, int val)
+    {
+        _data[key] = val;
+        db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
+    }
+
     public void GetUserData()
     {
         db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
@@ -276,5 +282,10 @@ public class UserManager : MonoBehaviour {
         });
 
         _data = (IDictionary)snapshot.Value;
+    }
+
+    public void AddItem(string item)
+    {
+        db.GetReference("users").Child(user.UserId).Child(item).SetValueAsync(item);
     }
 }

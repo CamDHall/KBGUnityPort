@@ -182,4 +182,23 @@ public class UIManager : MonoBehaviour {
         string _name = clicked.name;
         SceneManager.LoadScene(_name);
     }
+
+    public void BuyUpgrade()
+    {
+        Debug.Log("BUY BUY BUY");
+        GameObject clicked = EventSystem.current.currentSelectedGameObject;
+        GameObject cParent = clicked.transform.parent.gameObject;
+        Button btn = clicked.GetComponent<Button>();
+
+        if (!btn.isActiveAndEnabled) return;
+        btn.enabled = false;
+
+        RectTransform[] children = cParent.GetComponentsInChildren<RectTransform>();
+        int price = int.Parse(children[5].GetComponent<Text>().text);
+
+        int newValue = int.Parse(UserManager.Instance._data["coins"].ToString()) - price;
+        UserManager.Instance._data["coins"] = price;
+
+        StoreManager.Instance.Bought(btn, newValue, clicked.name);
+    }
 }
