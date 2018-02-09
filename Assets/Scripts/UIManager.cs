@@ -185,7 +185,6 @@ public class UIManager : MonoBehaviour {
 
     public void BuyUpgrade()
     {
-        Debug.Log("BUY BUY BUY");
         GameObject clicked = EventSystem.current.currentSelectedGameObject;
         GameObject cParent = clicked.transform.parent.gameObject;
         Button btn = clicked.GetComponent<Button>();

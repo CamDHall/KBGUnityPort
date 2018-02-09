@@ -44,11 +44,14 @@ public class StoreManager : MonoBehaviour {
             Text buy = children[4].GetComponent<Text>();
             string price = children[5].GetComponent<Text>().text;
 
-            bool canBuy = true;
+            Debug.Log("OPTION: " + option.name + " PRICE: " + price);
 
-            if (UserManager.Instance._data.Contains(btn.name)) canBuy = false;
-
-            if (coins >= int.Parse(price) && canBuy)
+            if (UserManager.Instance._data.Contains(btn.name))
+            {
+                background.color = redBg;
+                buy.text = "OWNED";
+                btn.enabled = false;
+            } else if (coins >= int.Parse(price))
             {
                 background.color = Color.white;
                 buy.text = "BUY";
@@ -67,6 +70,7 @@ public class StoreManager : MonoBehaviour {
     // Setting local data before setup and user data afterwards to prevent delays
     public void Bought(Button btn, int newValue, string item)
     {
+        item = item.ToLower();
         btn.GetComponent<Image>().color = StoreManager.Instance.redBg;
         StoreManager.Instance.coinTxt.text = "My Coins: " + newValue;
 
@@ -75,10 +79,12 @@ public class StoreManager : MonoBehaviour {
 
         if (UserManager.Instance._data[item] != null)
         {
+            Debug.Log("ITEM: " + item);
             UserManager.Instance._data[item] = item;
         }
         else
         {
+            Debug.Log("ITEM:  " + item);
             UserManager.Instance._data.Add(item, item);
         }
         StoreManager.Instance.SetupButtons();
