@@ -22,10 +22,8 @@ public class HouseManager : MonoBehaviour {
         // Upgrades
         foreach(GameObject upgrade in upgrades)
         {
-            Debug.Log("UPGRADE: " + upgrade.name);
             if(UserManager.Instance._data.Contains(upgrade.name.ToLower()))
             {
-                Debug.Log("IF: " + upgrade.name);
                 upgrade.SetActive(true);
             }
         }

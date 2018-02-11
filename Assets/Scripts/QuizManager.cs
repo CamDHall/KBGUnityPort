@@ -30,15 +30,21 @@ public class QuizManager : MonoBehaviour {
 
     void GenerateQuestion()
     {
-        if (num == 15) return;
+        if (num == 15)
+        {
+            int newValue = int.Parse(UserManager.Instance._data["coins"].ToString()) + (scoreNum * 50);
+            UserManager.Instance.UpdateUserData("coins", newValue);
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("House");
+        }
         num++;
         numQuestions.text = "Questions:   " + num + "/15";
 
         int aChoice = Random.Range(0, 2);
         int operatorChoice = Random.Range(0, 4);
 
-        int first = Random.Range(-30, 30);
-        int second = Random.Range(-40, 40);
+        int first = Random.Range(-20, 30);
+        int second = Random.Range(-10, 40);
 
         if (aChoice == 0) currentTruthy = true;
         else currentTruthy = false;
@@ -59,10 +65,14 @@ public class QuizManager : MonoBehaviour {
             if (_operator == "+") return first + " " + _operator + " " + second + " = " + (first + second);
             else if (_operator == "-") return first + " " + _operator + " " + second + " = " + (first - second);
             else if (_operator == "*") return first + " " + _operator + " " + second + " = " + (first * second);
-            else return first + " " + _operator + " " + second + " = " + (first / second);
+            else
+            {
+                if (second == 0) second = 2;
+                return first + " " + _operator + " " + second + " = " + (first / second);
+            }
         }
 
-        return first + " " + _operator + " " + second + " = " + Random.Range(-30, 30);
+        return first + " " + _operator + " " + second + " = " + Random.Range(-20, 30);
     }
 
     void HandleAnswer(bool answer)
@@ -72,11 +82,14 @@ public class QuizManager : MonoBehaviour {
             score.text = "Score:     " + (++scoreNum);
             if(lastAnswer)
                 bonusNum++;
+            lastAnswer = true;
         } else
         {
             bonusNum = 0;
+            lastAnswer = false;
         }
 
+        Debug.Log("BONUS: " + bonusNum);
         bonus.text = "Bonus:     " + bonusNum;
 
         GenerateQuestion();

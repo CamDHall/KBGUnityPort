@@ -267,8 +267,12 @@ public class UserManager : MonoBehaviour {
 
     public void UpdateUserData(string key, int val)
     {
-        _data[key] = val;
-        db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
+        if (key == "coins")
+        {
+            int newValue = int.Parse(_data["coins"].ToString()) + val;
+            _data[key] = newValue;
+            db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
+        }
     }
 
     public void GetUserData()

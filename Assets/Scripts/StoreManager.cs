@@ -44,8 +44,6 @@ public class StoreManager : MonoBehaviour {
             Text buy = children[4].GetComponent<Text>();
             string price = children[5].GetComponent<Text>().text;
 
-            Debug.Log("OPTION: " + option.name + " PRICE: " + price);
-
             if (UserManager.Instance._data.Contains(btn.name))
             {
                 background.color = redBg;
@@ -79,12 +77,10 @@ public class StoreManager : MonoBehaviour {
 
         if (UserManager.Instance._data[item] != null)
         {
-            Debug.Log("ITEM: " + item);
             UserManager.Instance._data[item] = item;
         }
         else
         {
-            Debug.Log("ITEM:  " + item);
             UserManager.Instance._data.Add(item, item);
         }
         StoreManager.Instance.SetupButtons();
