@@ -15,10 +15,12 @@ public class InputFields : MonoBehaviour {
 
     public void Username(InputField input)
     {
-        UIManager.Instance.errorMessage.gameObject.SetActive(false);
+        UIManager.Instance.ErrorOff();
+
         if(input.text.Length >= 3)
         {
             UserManager.Instance.Username(input.text);
+            UIManager.Instance.ErrorOff();
         } else
         {
             UIManager.Instance.DisplayError("Username must be at least three characters long.");
@@ -58,6 +60,7 @@ public class InputFields : MonoBehaviour {
             UIManager.Instance.DisplayError("Password must contain at least one number.");
         } else
         {
+            UIManager.Instance.ErrorOff();
             UserManager.Instance.password = input.text;
         }
     }

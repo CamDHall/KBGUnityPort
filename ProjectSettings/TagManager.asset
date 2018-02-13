@@ -20,6 +20,7 @@ TagManager:
   - Boy
   - Girl
   - Item
+  - Submit
   layers:
   - Default
   - TransparentFX

@@ -72,6 +72,7 @@ public class UIManager : MonoBehaviour {
 
     public void Value()
     {
+        UIManager.Instance.ErrorOff();
         GameObject clicked = EventSystem.current.currentSelectedGameObject;
         string pn = clicked.transform.parent.name;
         string val = clicked.name;
@@ -151,6 +152,7 @@ public class UIManager : MonoBehaviour {
 
     public void DisplayError(string message)
     {
+        errorMessage.transform.parent.gameObject.SetActive(true);
         errorMessage.gameObject.SetActive(true);
 
         errorMessage.text = message;
@@ -158,6 +160,8 @@ public class UIManager : MonoBehaviour {
 
     public void ErrorOff()
     {
+        Debug.Log("PARENT: " + errorMessage.transform.parent.gameObject.name);
+        errorMessage.transform.parent.gameObject.SetActive(false);
         errorMessage.gameObject.SetActive(false);
     }
 

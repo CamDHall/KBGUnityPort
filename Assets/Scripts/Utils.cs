@@ -6,9 +6,10 @@ public static class Utils {
 
 	public static bool FormValid()
     {
-        if(UserManager.Instance.favoriteColor != null && UserManager.Instance.subject != null &&
-            UserManager.Instance.likes != null && UserManager.Instance.quality != null && UserManager.Instance.hobby != null)
+        if(UserManager.Instance.favoriteColor != "" && UserManager.Instance.subject != "" &&
+            UserManager.Instance.likes != "" && UserManager.Instance.quality != "" && UserManager.Instance.hobby != "")
         {
+            Debug.Log("COLOR: " + UserManager.Instance.favoriteColor + " QUALITY: " + UserManager.Instance.quality);
             return true;
         } else
         {
@@ -18,14 +19,11 @@ public static class Utils {
 
     public static Color GenerateColor(string str)
     {
-        Debug.Log("D: " + str);
         str = str.Replace("RGBA(", "");
         str = str.Replace(")", "");
 
         string[] numStr = str.Split(',');
         float[] numValues = System.Array.ConvertAll(numStr, float.Parse);
-
-        Debug.Log(numValues.Length);
 
         Color newColor = new Color(numValues[0], numValues[1], numValues[2], numValues[3]);
 

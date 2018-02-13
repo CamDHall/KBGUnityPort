@@ -174,7 +174,7 @@ public class UserManager : MonoBehaviour {
                 {
                     IDictionary dictUser = (IDictionary)user.Value;
 
-                    if (dictUser["username"].ToString() == uname)
+                    if (dictUser["username"].ToString() == uname && SceneManager.GetActiveScene().ToString() == "Registeration")
                     {
                         UIManager.Instance.DisplayError("Username already exist.");
                         return;
@@ -192,12 +192,12 @@ public class UserManager : MonoBehaviour {
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                UIManager.Instance.DisplayError("Sorry there was an unexpected error. Please try again later.");
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                UIManager.Instance.DisplayError("Username/Password not found.");
                 return;
             }
 
