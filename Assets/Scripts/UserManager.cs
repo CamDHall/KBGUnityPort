@@ -96,6 +96,7 @@ public class UserManager : MonoBehaviour {
         } else if(password == "" || password.Length < 6)
         {
             UIManager.Instance.DisplayError("Please provide a valid password");
+            password = null;
             return;
         }
 

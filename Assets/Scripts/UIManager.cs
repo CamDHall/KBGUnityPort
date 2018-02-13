@@ -41,16 +41,6 @@ public class UIManager : MonoBehaviour {
         }
     }
 
-    public void RegisterScene()
-    {
-        SceneManager.LoadScene("Registeration");
-    }
-
-    public void LogInScene()
-    {
-        SceneManager.LoadScene("login");
-    }
-
     public void Register()
     {
         if(UserManager.Instance._name == null || UserManager.Instance._username == null || UserManager.Instance.email == null ||
@@ -63,6 +53,7 @@ public class UIManager : MonoBehaviour {
 
             UserManager.Instance.RegisterUser();
             registerForm.SetActive(false);
+            ErrorOff();
             quizForm.SetActive(true);
         }
     }

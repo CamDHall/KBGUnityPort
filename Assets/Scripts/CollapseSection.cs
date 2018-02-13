@@ -9,6 +9,8 @@ public class CollapseSection : MonoBehaviour {
     public Button icon;
     RectTransform thisRT;
 
+    public GameObject area;
+
     private void Start()
     {
         thisRT = GetComponent<RectTransform>();
@@ -16,64 +18,26 @@ public class CollapseSection : MonoBehaviour {
 
     public void Collapse()
     {
-        if((gameObject.name == "Background" && ageSelected && genderSelected) || gameObject.name != "Background")
+        if ((gameObject.name == "Background" && ageSelected && genderSelected) || gameObject.name != "Background")
         {
-            // Deactivate buttons and text
-            foreach(Button btn in GetComponentsInChildren<Button>())
-            {
-                btn.gameObject.SetActive(false);
-            }
-
-            foreach(Text txt in GetComponentsInChildren<Text>())
-            {
-                txt.enabled = false;
-            }
-
-            if(GetComponent<Image>() != null)
-                GetComponent<Image>().enabled = false;
-
             icon.gameObject.SetActive(true);
-
-            List<RectTransform> groups = new List<RectTransform>();
-
-            foreach(RectTransform rt in transform.parent.GetComponentInChildren<RectTransform>())
-            {
-                if(rt == thisRT)
-                {
-
-                    continue;
-                }
-                groups.Add(rt);
-            }
-
-            int index = groups.IndexOf(thisRT);
-
-            for(int i = 0; i < groups.Count; i++)
-            {
-                RectTransform group = groups[i];
-                if(group != thisRT)
-                {
-                    if(gameObject.name == "Background")
-                    {
-                        group.anchoredPosition += (Vector2.up * 350);
-                    } else
-                    {
-                        if (group.anchoredPosition.y > thisRT.anchoredPosition.y)
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            if (i == index + 1)
-                                group.anchoredPosition += (Vector2.up * 550);
-                            else if (i == groups.Count)
-                                group.anchoredPosition += (Vector2.up * 50);
-                            else
-                                group.anchoredPosition += (Vector2.up * 500);
-                        }
-                    }
-                }
-            }
+            gameObject.SetActive(false);
         }
+
+        if (transform.name != "Quality" && gameObject.name != "Background")
+        {
+            GameObject sibiling = transform.parent.GetChild(transform.GetSiblingIndex() + 1).gameObject;
+            Vector2 padding = new Vector3(0, 150 + (transform.childCount * 10));
+
+            sibiling.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition - padding;
+
+            Debug.Log("SIBLING: " + sibiling.GetComponent<RectTransform>().anchoredPosition + " NAME: " + sibiling.name);
+        }
+    }
+
+    public void Expand()
+    {
+        area.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
