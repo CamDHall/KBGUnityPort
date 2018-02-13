@@ -287,6 +287,7 @@ public class UserManager : MonoBehaviour {
         });
 
         _data = (IDictionary)snapshot.Value;
+        gender = _data["gender"].ToString();
     }
 
     public void AddItem(string item)

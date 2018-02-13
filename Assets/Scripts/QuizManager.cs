@@ -41,7 +41,7 @@ public class QuizManager : MonoBehaviour {
         numQuestions.text = "Questions:   " + num + "/15";
 
         int aChoice = Random.Range(0, 2);
-        int operatorChoice = Random.Range(0, 4);
+        int operatorChoice = Random.Range(0, 10);
 
         int first = Random.Range(-20, 30);
         int second = Random.Range(-10, 40);
@@ -50,9 +50,9 @@ public class QuizManager : MonoBehaviour {
         else currentTruthy = false;
 
         string _operator = "";
-        if (operatorChoice == 0) _operator = "+";
-        else if (operatorChoice == 1) _operator = "-";
-        else if (operatorChoice == 2) _operator = "*";
+        if (operatorChoice <= 4) _operator = "+";
+        else if (operatorChoice <= 7) _operator = "-";
+        else if (operatorChoice == 8) _operator = "*";
         else _operator = "/";
 
         question.text = TxT(first, second, _operator);

@@ -27,5 +27,8 @@ public class HouseManager : MonoBehaviour {
                 upgrade.SetActive(true);
             }
         }
+
+        if (UserManager.Instance.gender == "Boy") Avatar.Instance.SetupAvatar("House", boy.transform);
+        else Avatar.Instance.SetupAvatar("House", girl.transform);        
     }
 }

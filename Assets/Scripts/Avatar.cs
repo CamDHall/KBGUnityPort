@@ -29,6 +29,9 @@ public class Avatar : MonoBehaviour {
         Instance = this;
         if(UserManager.Instance != null)
             UserManager.Instance.GetUserData();
+
+        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(Instance);
     }
 
     public void SetupAvatar(string ingender, GameObject temp)
@@ -66,6 +69,54 @@ public class Avatar : MonoBehaviour {
         SetLocalData();
         
         gender = ingender;
+        UserManager.Instance.avatarObj = avatarObj;
+    }
+
+    public void SetupAvatar(string scene, Transform _parent)
+    {
+        // Clear list
+        spriteSkin.Clear();
+        primaryClothes.Clear();
+        secondaryClothes.Clear();
+        spriteHair.Clear();
+        primaryHat.Clear();
+
+        if (UserManager.Instance.gender == "Boy") avatarObj = Instantiate(Resources.Load("Boy") as GameObject);
+        else Instantiate(Resources.Load("Girl") as GameObject);
+
+        if (scene == "House") avatarObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        avatarObj.transform.parent = _parent;
+
+        avatarObj.transform.localPosition = Vector2.zero;
+
+        colorHatSecond = colorHatPrime * 1.2f;
+        colorHatSecond.a = 1;
+
+        colorClothSecond = colorClothSecond * 1.2f;
+        colorClothSecond.a = 1;
+
+        SpriteRenderer[] childSprites = avatarObj.GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (SpriteRenderer s in childSprites)
+        {
+            if (s.tag == "Untagged") continue;
+
+            if (s.tag == "Skin") spriteSkin.Add(s);
+            if (s.tag == "PrimaryCloth") primaryClothes.Add(s);
+            if (s.tag == "Hair") spriteHair.Add(s);
+            if (s.tag == "PrimaryHat") primaryHat.Add(s);
+            if (s.tag == "SecondaryCloth") secondaryClothes.Add(s);
+            if (s.tag == "SecondaryHat")
+            {
+                secondaryHat = s;
+            }
+            if (s.tag == "Shadow") shadow = s;
+        }
+
+        SetLocalData();
+
+        gender = UserManager.Instance.gender;
         UserManager.Instance.avatarObj = avatarObj;
     }
 
@@ -122,7 +173,13 @@ public class Avatar : MonoBehaviour {
 
         shadowColor = Color.grey;
 
-        foreach (SpriteRenderer s in spriteSkin) s.color = skinColor;
+        Debug.Log("SPRITESKIN: " + spriteSkin[0]);
+
+        foreach (SpriteRenderer s in spriteSkin)
+        {
+            Debug.Log("LOOP: " + s);
+            s.color = skinColor;
+        }
         foreach (SpriteRenderer s in spriteHair) s.color = hairColor;
         foreach (SpriteRenderer s in primaryClothes) s.color = colorClothPrime;
         foreach (SpriteRenderer s in secondaryClothes) s.color = colorClothSecond;
@@ -130,5 +187,8 @@ public class Avatar : MonoBehaviour {
 
         secondaryHat.color = colorHatSecond;
         shadow.color = shadowColor;
+
+
+        Debug.Log("MADE IT PAS SETLOCAL");
     }
 }
