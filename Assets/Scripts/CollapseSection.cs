@@ -34,6 +34,8 @@ public class CollapseSection : MonoBehaviour {
 
             sibiling.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition - padding;
         }
+
+        submit.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 100 + (transform.childCount * 20));
     }
 
     public void Expand()

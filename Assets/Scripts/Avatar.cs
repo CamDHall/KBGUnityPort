@@ -82,9 +82,11 @@ public class Avatar : MonoBehaviour {
         primaryHat.Clear();
 
         if (UserManager.Instance.gender == "Boy") avatarObj = Instantiate(Resources.Load("Boy") as GameObject);
-        else Instantiate(Resources.Load("Girl") as GameObject);
+        else avatarObj = Instantiate(Resources.Load("Girl") as GameObject);
 
         if (scene == "House") avatarObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+        Debug.Log("SCALE: " + avatarObj.transform.localScale);
 
         avatarObj.transform.parent = _parent;
 
@@ -173,11 +175,8 @@ public class Avatar : MonoBehaviour {
 
         shadowColor = Color.grey;
 
-        Debug.Log("SPRITESKIN: " + spriteSkin[0]);
-
         foreach (SpriteRenderer s in spriteSkin)
         {
-            Debug.Log("LOOP: " + s);
             s.color = skinColor;
         }
         foreach (SpriteRenderer s in spriteHair) s.color = hairColor;
@@ -187,8 +186,5 @@ public class Avatar : MonoBehaviour {
 
         secondaryHat.color = colorHatSecond;
         shadow.color = shadowColor;
-
-
-        Debug.Log("MADE IT PAS SETLOCAL");
     }
 }

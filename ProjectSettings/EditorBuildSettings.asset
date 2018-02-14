@@ -23,3 +23,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MathGame.unity
     guid: b2e9d2162975f55408f0835e61e83d59
+  - enabled: 1
+    path: Assets/Scenes/SpellingTest.unity
+    guid: 1d6a918f99882994a88cde770beefe02
