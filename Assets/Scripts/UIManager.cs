@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour {
     public static UIManager Instance;
 
     public Color backgroundColor;
-    public GameObject registerForm, quizForm, scrollView;
+    public GameObject registerForm, quizForm, scrollView, scroll;
     public Text errorMessage;
     Dictionary<Image, Color> colorOptions = new Dictionary<Image, Color>();
 
@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour {
 
     private void Start()
     {
+        if (scroll != null) scroll.gameObject.SetActive(false);
+
         if (errorMessage != null)
         {
             errorMessage.gameObject.SetActive(false);
@@ -55,6 +57,7 @@ public class UIManager : MonoBehaviour {
             registerForm.SetActive(false);
             ErrorOff();
             quizForm.SetActive(true);
+            scroll.gameObject.SetActive(true);
         }
     }
 
@@ -96,7 +99,7 @@ public class UIManager : MonoBehaviour {
             if (pn != "Color")
             {
                 // Colors
-                List<Image> siblings = siblings = clicked.transform.parent.GetComponentsInChildren<Image>().ToList();
+                List<Image> siblings = clicked.transform.parent.GetComponentsInChildren<Image>().ToList();
 
                 foreach (Image sibling in siblings)
                 {
@@ -160,7 +163,6 @@ public class UIManager : MonoBehaviour {
 
     public void ErrorOff()
     {
-        Debug.Log("PARENT: " + errorMessage.transform.parent.gameObject.name);
         errorMessage.transform.parent.gameObject.SetActive(false);
         errorMessage.gameObject.SetActive(false);
     }

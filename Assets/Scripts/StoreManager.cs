@@ -22,7 +22,7 @@ public class StoreManager : MonoBehaviour {
 
     private void Start()
     {
-        UserManager.Instance.GetUserData();
+        //UserManager.Instance.GetUserData();
         SetupButtons();
     }
 

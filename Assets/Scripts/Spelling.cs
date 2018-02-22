@@ -11,7 +11,7 @@ public class Spelling : MonoBehaviour {
 
     public Button btn1, btn2, btn3;
 
-    string tempAge = "5-8";
+    //string tempAge = "5-8";
     List<string> words = new List<string>();
     string wrongWord;
 

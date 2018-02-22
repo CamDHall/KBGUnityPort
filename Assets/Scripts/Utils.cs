@@ -9,7 +9,6 @@ public static class Utils {
         if(UserManager.Instance.favoriteColor != "" && UserManager.Instance.subject != "" &&
             UserManager.Instance.likes != "" && UserManager.Instance.quality != "" && UserManager.Instance.hobby != "")
         {
-            Debug.Log("COLOR: " + UserManager.Instance.favoriteColor + " QUALITY: " + UserManager.Instance.quality);
             return true;
         } else
         {

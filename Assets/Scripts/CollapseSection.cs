@@ -7,15 +7,14 @@ public class CollapseSection : MonoBehaviour {
 
     public bool ageSelected, genderSelected;
     public Button icon;
-    RectTransform thisRT;
     GameObject submit;
     public GameObject area;
     public RectTransform[] topLevel;
+    public RectTransform below;
 
     private void Start()
     {
         submit = GameObject.FindGameObjectWithTag("Submit");
-        thisRT = GetComponent<RectTransform>();
     }
 
     public void Collapse()
@@ -24,9 +23,15 @@ public class CollapseSection : MonoBehaviour {
         {
             icon.gameObject.SetActive(true);
             gameObject.SetActive(false);
-            submit.GetComponent<RectTransform>().anchoredPosition += (Vector2.up * 10);
+            //submit.GetComponent<RectTransform>().anchoredPosition += (Vector2.up * 10);
         }
 
+        if (below != null)
+        {
+            below.anchoredPosition += Vector2.up * 325;
+            if (below.GetComponent<CollapseSection>().below != null)
+                below.GetComponent<CollapseSection>().below.anchoredPosition += Vector2.up * 325;
+        }/*
         if (transform.name != "Quality" && gameObject.name != "Background")
         {
             GameObject sibiling = transform.parent.GetChild(transform.GetSiblingIndex() + 1).gameObject;
@@ -35,12 +40,20 @@ public class CollapseSection : MonoBehaviour {
             sibiling.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition - padding;
         }
 
-        submit.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 100 + (transform.childCount * 20));
+        submit.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 100 + (transform.childCount * 20));*/
     }
 
     public void Expand()
     {
-        GameObject[] icons = GameObject.FindGameObjectsWithTag("Icon");
+        if (below != null)
+        {
+            below.anchoredPosition -= Vector2.up * 325;
+
+            if (below.GetComponent<CollapseSection>().below != null)
+                below.GetComponent<CollapseSection>().below.anchoredPosition -= Vector2.up * 325;
+        }
+        
+        /*GameObject[] icons = GameObject.FindGameObjectsWithTag("Icon");
         Vector2 newPos = new Vector3(0, -60 * (area.transform.childCount));
         float iconY = GetComponent<RectTransform>().anchoredPosition.y;
 
@@ -62,7 +75,7 @@ public class CollapseSection : MonoBehaviour {
             {
                 obj.anchoredPosition += areaNew;
             }
-        }
+        }*/
         area.SetActive(true);
         gameObject.SetActive(false);
     }

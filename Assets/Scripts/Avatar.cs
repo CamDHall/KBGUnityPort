@@ -12,7 +12,7 @@ public class Avatar : MonoBehaviour {
     [HideInInspector] public Color hairColor, skinColor, colorHatPrime, colorClothPrime, colorClothSecond, colorHatSecond, shadowColor;
 
     GameObject avatarObj;
-    string gender;
+    //string gender;
 
     List<SpriteRenderer> primaryClothes = new List<SpriteRenderer>();
     List<SpriteRenderer> spriteHair = new List<SpriteRenderer>();
@@ -27,8 +27,8 @@ public class Avatar : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
-        if(UserManager.Instance != null)
-            UserManager.Instance.GetUserData();
+        /*if(UserManager.Instance != null)
+            UserManager.Instance.GetUserData();*/
 
         DontDestroyOnLoad(this);
         DontDestroyOnLoad(Instance);
@@ -68,7 +68,7 @@ public class Avatar : MonoBehaviour {
 
         SetLocalData();
         
-        gender = ingender;
+        //gender = ingender;
         UserManager.Instance.avatarObj = avatarObj;
     }
 
@@ -85,8 +85,6 @@ public class Avatar : MonoBehaviour {
         else avatarObj = Instantiate(Resources.Load("Girl") as GameObject);
 
         if (scene == "House") avatarObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-
-        Debug.Log("SCALE: " + avatarObj.transform.localScale);
 
         avatarObj.transform.parent = _parent;
 
@@ -118,7 +116,7 @@ public class Avatar : MonoBehaviour {
 
         SetLocalData();
 
-        gender = UserManager.Instance.gender;
+        //gender = UserManager.Instance.gender;
         UserManager.Instance.avatarObj = avatarObj;
     }
 
@@ -160,8 +158,7 @@ public class Avatar : MonoBehaviour {
 
     void SetLocalData()
     {
-        UserManager.Instance.GetUserData();
-
+        //UserManager.Instance.GetUserData();
         skinColor = Utils.GenerateColor(UserManager.Instance._data["skinColor"].ToString());
         hairColor = Utils.GenerateColor(UserManager.Instance._data["hairColor"].ToString());
         colorHatPrime = Utils.GenerateColor(UserManager.Instance._data["colorHatPrime"].ToString());

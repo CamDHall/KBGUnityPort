@@ -1,21 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Firebase.Auth;
+/*using Firebase.Auth;
 using Firebase;
 using Firebase.Unity.Editor;
-using Firebase.Database;
+using Firebase.Database;*/
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UserManager : MonoBehaviour {
     public static UserManager Instance;
-    Firebase.Auth.FirebaseAuth auth;
+    /*Firebase.Auth.FirebaseAuth auth;
 
     FirebaseUser user;
-    public IDictionary _data = new Dictionary<string, string>();
     FirebaseDatabase db;
-    DataSnapshot snapshot;
+    DataSnapshot snapshot;*/
+
+    public IDictionary _data = new Dictionary<string, string>();
 
     public InputField userNameField, passwordField;
     public string gender, ageGroup, _name, _username, email, password; // Registeration
@@ -40,12 +41,14 @@ public class UserManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(gameObject);
+        
+        /*
         // Set up the Editor before calling into the realtime database.
         FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://kids-break-ground.firebaseio.com");
         db = Firebase.Database.FirebaseDatabase.DefaultInstance;
         // Get the root reference location of the database.
 
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;*/
     }
 
     private void Start()
@@ -75,10 +78,11 @@ public class UserManager : MonoBehaviour {
         canvas = GameObject.FindGameObjectWithTag("Canvas");
     }
 
+    /*
     void InitializeFirebase()
     {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-    }
+    }*/
 
     public void SignInAttempt()
     {
@@ -107,7 +111,7 @@ public class UserManager : MonoBehaviour {
             loading = true;
         }
 
-        db.GetReference("users").GetValueAsync().ContinueWith(task => {
+        /*db.GetReference("users").GetValueAsync().ContinueWith(task => {
             if (task.IsFaulted)
             {
                 Debug.Log("SIGN IN ERROR");
@@ -134,12 +138,12 @@ public class UserManager : MonoBehaviour {
                     loading = false;
                 }
             }
-        });
+        });*/
     }
 
     void LogIn(string email, string password)
     {
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        /*auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled)
             {
@@ -157,12 +161,12 @@ public class UserManager : MonoBehaviour {
             GetUserData();
             
             SceneManager.LoadScene("AvatarScene");
-        });
+        });*/
     }
 
     public void Username(string uname)
     {
-        db.GetReference("users").GetValueAsync().ContinueWith(task => {
+        /*db.GetReference("users").GetValueAsync().ContinueWith(task => {
             if (task.IsFaulted)
             {
                 Debug.Log(task.Exception);
@@ -181,14 +185,14 @@ public class UserManager : MonoBehaviour {
                     }
                 }
             }
-        });
+        });*/
 
         _username = uname;
     }
 
     public void RegisterUser()
     {
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        /*auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsCanceled)
             {
@@ -209,12 +213,12 @@ public class UserManager : MonoBehaviour {
             db.GetReference("users").Child(user.UserId).Child("password").SetValueAsync(password);
             db.GetReference("users").Child(user.UserId).Child("gender").SetValueAsync(gender);
             db.GetReference("users").Child(user.UserId).Child("age").SetValueAsync(ageGroup);
-        });
+        });*/
     }
 
     public void QuizSubmit()
     {
-        db.GetReference("users").Child(user.UserId).Child("color").SetValueAsync(favoriteColor);
+        /*db.GetReference("users").Child(user.UserId).Child("color").SetValueAsync(favoriteColor);
         db.GetReference("users").Child(user.UserId).Child("subject").SetValueAsync(subject);
         db.GetReference("users").Child(user.UserId).Child("hobby").SetValueAsync(hobby);
         db.GetReference("users").Child(user.UserId).Child("likes").SetValueAsync(likes);
@@ -229,16 +233,21 @@ public class UserManager : MonoBehaviour {
         db.GetReference("users").Child(user.UserId).Child("roof").SetValueAsync("roof1");
         db.GetReference("users").Child(user.UserId).Child("wall").SetValueAsync("wallstyle1");
 
-        db.GetReference("users").Child(user.UserId).Child("coins").SetValueAsync(0);
+        db.GetReference("users").Child(user.UserId).Child("coins").SetValueAsync(0);*/
 
         //
         // Local
         //
 
+        _data["name"] = _name;
+        _data["email"] = email;
+        _data["password"] = password;
+        _data["gender"] = gender;
+        _data["age"] = ageGroup;
         _data["skinColor"] = "RGBA(1.00, 0.803, 0.580, 1.00)";
         _data["hairColor"] = "RGBA(0.00, 0.00, 0.00, 1.00)";
-        _data["colorHatPrime"] = "RGBA(0.933, 0.293, 0.341)";
-        _data["colorClothPrime"] = "RGBA(0.933, 0.293, 0.341)";
+        _data["colorHatPrime"] = "RGBA(0.933, 0.293, 0.341, 1.00)";
+        _data["colorClothPrime"] = "RGBA(0.933, 0.293, 0.341, 1.00)";
         _data["gender"] = gender;
 
         // House
@@ -253,17 +262,20 @@ public class UserManager : MonoBehaviour {
 
     public void LogOut()
     {
+        /*
         foreach(string key in _data.Keys)
         {
             db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(_data[key]);
         }
         auth.SignOut();
+        _data = null;*/
+        _data = null;
     }
 
     public void UpdateUserData(string key, string val)
     {
         _data[key] = val;
-        db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
+        //db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
     }
 
     public void UpdateUserData(string key, int val)
@@ -272,10 +284,11 @@ public class UserManager : MonoBehaviour {
         {
             int newValue = int.Parse(_data["coins"].ToString()) + val;
             _data[key] = newValue;
-            db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
+            //db.GetReference("users").Child(user.UserId).Child(key).SetValueAsync(val);
         }
     }
 
+    /*
     public void GetUserData()
     {
         db.GetReference("users").Child(user.UserId).GetValueAsync().ContinueWith(t =>
@@ -288,10 +301,11 @@ public class UserManager : MonoBehaviour {
 
         _data = (IDictionary)snapshot.Value;
         gender = _data["gender"].ToString();
-    }
+    }*/
 
     public void AddItem(string item)
     {
-        db.GetReference("users").Child(user.UserId).Child(item).SetValueAsync(item);
+        _data[item] = item;
+        //db.GetReference("users").Child(user.UserId).Child(item).SetValueAsync(item);
     }
 }
